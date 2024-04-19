@@ -7,13 +7,12 @@ const articlesContainer = document.getElementById("articles-container");
 const displayArticles = () => {
   if (filteredArticles.length < 1) {
     articlesContainer.innerHTML =
-      "<h6>Lo sentimos, No hay productos que mostrar :C</h6>";
+      "<h6>Lo sentimos, No hay productos que mostrar.</h6>";
     return;
   }
 
   articlesContainer.innerHTML = filteredArticles
     .map((item) => {
-      //mapear los valores del nodo de la lista a un constante, y posteriormente la respresento en un producto
       const { id, name, image, description, price } = item;
       return `
         <div class="col-md-6 col-lg-4 my-4 row align-items-center" data-id="${id}">
@@ -36,8 +35,47 @@ const displayArticles = () => {
     .join("");
 };
 
-function addToCart(articleId) {
+const cartContainer = document.getElementById("carrito-container");
+const cartTotalValue = document.getElementById("carrito-total-value");
 
+const displayCart = () => {
+  totalCarrito = 0;
+
+  if (cart.length < 1) {
+    cartContainer.innerHTML = `<tr><h6>Lo sentimos, No hay productos que mostrar.</h6></tr>`;
+    cartTotalValue.innerHTML = `$0.00`;
+    return;
+  }
+
+  cartContainer.innerHTML = cart
+    .map((item) => {
+      const { id, name, image, description, price, quantity } = item;
+      return `
+    <tr>
+    <td>
+      <img
+        class="img-fluid"
+        src="${image}"
+        alt="imagen pc"
+      />
+    </td>
+    <td>${name}</td>
+    <td class="fw-bold">$${price}</td>
+    <td class="flex align-items-start gap-4">
+      <button type="button" class="btn btn-dark">-</button>
+      ${quantity}
+      <button type="button" class="btn btn-dark">+</button>
+    </td>
+    <td>
+      <button class="btn btn-danger" type="button">X</button>
+    </td>
+  </tr>
+        `;
+    })
+    .join("");
+};
+
+function addToCart(articleId) {
   const item = filteredArticles.find((item) => item.id === articleId);
   if (!item) {
     console.error("Artículo no encontrado");
@@ -52,17 +90,15 @@ function addToCart(articleId) {
     cart = [...cart, item];
   }
 
+  displayCart();
+}
+
+function removeFromCart(articleId) {}
+
+function clearCart() {
+  cart = [];
   console.log(cart);
 }
 
-function removeFromCart(articleId){
-
-}
-
-function clearCart() {
-    cart = [];
-    console.log(cart);
-}
-
-
 displayArticles();
+displayCart();
