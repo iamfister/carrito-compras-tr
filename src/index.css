@@ -1,0 +1,15 @@
+.fw-black {
+  font-weight: 900;
+}
+
+.btn-dark {
+  text-transform: uppercase;
+}
+
+.carrito {
+  background-color: transparent;
+  border: none;
+  max-width: 2rem;
+  position: relative;
+  z-index: 100;
+}
