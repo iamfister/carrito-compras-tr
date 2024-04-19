@@ -49,27 +49,33 @@ const displayCart = () => {
 
   cartContainer.innerHTML = cart
     .map((item) => {
-      const { id, name, image, description, price, quantity } = item;
+      const { id, name, image, price, quantity } = item;
+
+      totalCarrito= (quantity * price) + totalCarrito;
+      console.log(totalCarrito)
+
+      cartTotalValue.innerHTML = `$${totalCarrito}`;
+
       return `
-    <tr>
-    <td>
-      <img
-        class="img-fluid"
-        src="${image}"
-        alt="imagen pc"
-      />
-    </td>
-    <td>${name}</td>
-    <td class="fw-bold">$${price}</td>
-    <td class="flex align-items-start gap-4">
-      <button type="button" class="btn btn-dark">-</button>
-      ${quantity}
-      <button type="button" class="btn btn-dark">+</button>
-    </td>
-    <td>
-      <button class="btn btn-danger" type="button">X</button>
-    </td>
-  </tr>
+        <tr>
+          <td>
+            <img
+              class="img-fluid"
+              src="${image}"
+              alt="imagen pc"
+            />
+          </td>
+          <td>${name}</td>
+          <td class="fw-bold">$${price}</td>
+          <td class="flex align-items-start gap-4">
+            <button type="button" class="btn btn-dark" onclick="removeQuantityArticuleToCart(${id})">-</button>
+            ${quantity}
+            <button type="button" class="btn btn-dark" onclick="addQuantityArticuleToCart(${id})">+</button>
+          </td>
+          <td>
+            <button class="btn btn-danger" type="button" onclick="removeFromCart(${id})">X</button>
+          </td>
+        </tr>
         `;
     })
     .join("");
@@ -93,11 +99,55 @@ function addToCart(articleId) {
   displayCart();
 }
 
-function removeFromCart(articleId) {}
+function removeFromCart(articleId) {
+  const item = filteredArticles.find((item) => item.id === articleId);
+  if (!item) {
+    console.error("Artículo no encontrado");
+    return;
+  }
+
+  const filteredCart = cart.filter(item => item.id !== articleId);
+
+  cart = [...filteredCart];
+
+  displayCart();
+}
 
 function clearCart() {
   cart = [];
+
+  displayCart();
   console.log(cart);
+}
+
+
+function addQuantityArticuleToCart(articleId) {
+  const item = filteredArticles.find((item) => item.id === articleId);
+  if (!item) {
+    console.error("Artículo no encontrado");
+    return;
+  }
+
+  const itemExist = cart.findIndex((article) => article.id == item.id);
+
+  cart[itemExist].quantity++;
+  displayCart();
+}
+
+function removeQuantityArticuleToCart(articleId) {
+  const item = filteredArticles.find((item) => item.id === articleId);
+  if (!item) {
+    console.error("Artículo no encontrado");
+    return;
+  }
+
+  const itemExist = cart.findIndex((article) => article.id == item.id);
+
+  if (cart[itemExist].quantity === 0) {
+    return;
+  }
+  cart[itemExist].quantity--;
+  displayCart();
 }
 
 displayArticles();
