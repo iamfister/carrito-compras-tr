@@ -1,8 +1,6 @@
 let filteredArticles = [...db];
 
-console.log(filteredArticles);
-
-console.log(filteredArticles);
+let cart = [];
 
 const articlesContainer = document.getElementById("articles-container");
 
@@ -28,7 +26,8 @@ const displayArticles = () => {
                 <p class="fw-black text-primary fs-3">$${price}</p>
                 <button 
                     type="button"
-                    class="btn btn-dark w-100 "
+                    class="btn btn-dark w-100"
+                    onclick="addToCart(${id})"
                 >Agregar al Carrito</button>
             </div>
         </div>
@@ -36,5 +35,25 @@ const displayArticles = () => {
     })
     .join("");
 };
+
+function addToCart(articleId) {
+  console.log(articleId);
+
+  const item = filteredArticles.find((item) => item.id === articleId);
+  if (!item) {
+    console.error("Artículo no encontrado");
+    return;
+  }
+
+  const itemExist = cart.findIndex((article) => article.id == item.id);
+  if (itemExist >= 0) {
+    cart[itemExist].quantity++;
+  } else {
+    item.quantity = 1;
+    cart = [...cart, item];
+  }
+
+  console.log(cart)
+}
 
 displayArticles();
