@@ -37,7 +37,6 @@ const displayArticles = () => {
 };
 
 function addToCart(articleId) {
-  console.log(articleId);
 
   const item = filteredArticles.find((item) => item.id === articleId);
   if (!item) {
@@ -53,7 +52,17 @@ function addToCart(articleId) {
     cart = [...cart, item];
   }
 
-  console.log(cart)
+  console.log(cart);
 }
+
+function removeFromCart(articleId){
+
+}
+
+function clearCart() {
+    cart = [];
+    console.log(cart);
+}
+
 
 displayArticles();
