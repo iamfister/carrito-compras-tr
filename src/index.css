@@ -48,3 +48,15 @@
   padding: 0 2px;
   margin: 0 3px;
 }
+
+.header {
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0.7)
+    ),
+    url("https://imagenes.eltiempo.com/files/image_1200_600/uploads/2023/11/21/655d0c48a7671.png");
+  background-position: 50%;
+  background-size: cover;
+  position: relative;
+}
